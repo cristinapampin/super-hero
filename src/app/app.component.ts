@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoaderService } from './shared/loader/loader.service';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +9,5 @@ import { LoaderService } from './shared/loader/loader.service';
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
-    loading$ = this.loaderService.loading$;
-
-    constructor(private loaderService: LoaderService) {}
+    constructor() {}
 }
