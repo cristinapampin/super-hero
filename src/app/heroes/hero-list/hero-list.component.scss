@@ -38,3 +38,13 @@
         gap: 8px;
     }
 }
+
+.heroes-bottom {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    button {
+        width: 48%;
+        max-width: 400px;
+    }
+}

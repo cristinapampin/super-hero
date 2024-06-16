@@ -4,6 +4,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-hero-list',
@@ -17,6 +18,7 @@ export class HeroListComponent implements OnInit {
     constructor(
         public heroService: HeroService,
         private ngxLoaderService: NgxUiLoaderService,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
@@ -48,5 +50,9 @@ export class HeroListComponent implements OnInit {
                 ),
             );
         }
+    }
+
+    addHero() {
+        this.router.navigate(['/heroes/new']);
     }
 }
