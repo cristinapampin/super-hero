@@ -11,6 +11,13 @@
     width: 50vh;
 }
 
+.heroes-filter {
+    margin: 20px;
+    mat-form-field {
+        width: 100%;
+    }
+}
+
 .hero-list-item {
     transition: background-color 0.3s ease;
     display: flex;

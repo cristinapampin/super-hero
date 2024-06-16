@@ -1,10 +1,20 @@
 <div class="heroes-list-container">
     <div class="heroes">
+        <div class="heroes-filter">
+            <mat-form-field appearance="fill">
+                <input matInput (input)="onFilterChange($event)" placeholder="Filtrar por nombre" />
+            </mat-form-field>
+        </div>
         <div class="heroes-list">
             <mat-list>
-                <mat-list-item *ngFor="let hero of heroes$ | async">
+                <mat-list-item *ngFor="let hero of filteredHeroes$ | async">
                     <div class="hero-list-item">
                         <div class="hero-name">
+                            <mat-icon
+                                aria-hidden="false"
+                                aria-label="person"
+                                fontIcon="person"
+                            ></mat-icon>
                             {{ hero.name | titlecase }}
                         </div>
                     </div>

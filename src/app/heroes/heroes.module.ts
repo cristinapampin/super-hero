@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER } from 'ngx-ui-loader';
 
 import { HeroesRoutingModule } from './heroes-routing.module';
@@ -9,6 +10,9 @@ import { HeroEditComponent } from './hero-edit/hero-edit.component';
 import { HeroService } from './services/hero.service';
 
 import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     fgsColor: '#ffabf3',
@@ -27,7 +31,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     providers: [HeroService, provideHttpClient(withJsonpSupport())],
     imports: [
         CommonModule,
+        FormsModule,
         HeroesRoutingModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
         MatListModule,
         NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     ],

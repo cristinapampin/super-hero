@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, finalize } from 'rxjs';
+import { Observable, finalize, map } from 'rxjs';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { HeroService } from '../services/hero.service';
@@ -12,6 +12,7 @@ import { Hero } from '../models/hero.interface';
 })
 export class HeroListComponent implements OnInit {
     public heroes$: Observable<Hero[]> = new Observable();
+    public filteredHeroes$: Observable<Hero[]> = new Observable();
 
     constructor(
         public heroService: HeroService,
@@ -29,5 +30,23 @@ export class HeroListComponent implements OnInit {
                 this.ngxLoaderService.stop();
             }),
         );
+        this.filteredHeroes$ = this.heroes$;
+    }
+
+    onFilterChange(event: any): void {
+        const filterValue = event.target.value.trim().toLowerCase();
+        this.filterHeroes(filterValue);
+    }
+
+    filterHeroes(filterValue: string): void {
+        if (!filterValue) {
+            this.filteredHeroes$ = this.heroes$;
+        } else {
+            this.filteredHeroes$ = this.heroes$.pipe(
+                map((heroes) =>
+                    heroes.filter((hero) => hero.name.toLowerCase().includes(filterValue)),
+                ),
+            );
+        }
     }
 }
