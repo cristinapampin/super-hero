@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, finalize, map } from 'rxjs';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-hero-list',
@@ -54,5 +54,9 @@ export class HeroListComponent implements OnInit {
 
     addHero() {
         this.router.navigate(['/heroes/new']);
+    }
+
+    editHero(id: number): void {
+        this.router.navigate(['/heroes/edit', id]);
     }
 }

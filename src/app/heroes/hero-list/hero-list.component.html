@@ -17,6 +17,11 @@
                             ></mat-icon>
                             {{ hero.name | titlecase }}
                         </div>
+                        <div class="hero-actions">
+                            <button mat-icon-button aria-label="Editar" (click)="editHero(hero.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </mat-list-item>
             </mat-list>

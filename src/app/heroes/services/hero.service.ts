@@ -15,6 +15,10 @@ export class HeroService {
         return this.http.get<Hero[]>(this.heroesUrl);
     }
 
+    getHeroeById(id: number): Observable<Hero> {
+        return this.http.get<Hero>(`${this.heroesUrl}/${id}`);
+    }
+
     getMaxHeroId(): Observable<number> {
         return this.getHeroes().pipe(
             map((heroes) => Math.max(...heroes.map((hero) => hero.id), 0)),
@@ -23,5 +27,9 @@ export class HeroService {
 
     addHero(hero: Hero): Observable<void> {
         return this.http.post<void>(this.heroesUrl, hero);
+    }
+
+    updateHero(hero: Hero): Observable<void> {
+        return this.http.patch<void>(`${this.heroesUrl}/${hero.id}`, hero);
     }
 }

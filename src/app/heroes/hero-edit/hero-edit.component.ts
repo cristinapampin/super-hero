@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
 import { Observable } from 'rxjs';
@@ -12,23 +12,37 @@ import { NotificationService } from '../../shared/notification-service/notificat
 })
 export class HeroEditComponent implements OnInit {
     hero: Hero | undefined;
+    isNewHero: boolean = false;
     lastHeroId$: Observable<number>;
 
     constructor(
         private heroService: HeroService,
-        private router: Router,
         private notificationService: NotificationService,
+        private route: ActivatedRoute,
+        private router: Router,
     ) {
         this.lastHeroId$ = new Observable<number>();
     }
 
     ngOnInit(): void {
-        this.newHero();
+        const heroId = this.route.snapshot.paramMap.get('id');
+        if (heroId) {
+            this.editHero(parseInt(heroId));
+        } else {
+            this.newHero();
+            this.isNewHero = true;
+        }
     }
 
     newHero() {
         this.heroService.getMaxHeroId().subscribe((maxId) => {
             this.hero = { id: maxId + 1, name: '' };
+        });
+    }
+
+    editHero(heroId: number) {
+        this.heroService.getHeroeById(heroId).subscribe((hero) => {
+            this.hero = hero;
         });
     }
 
@@ -41,18 +55,33 @@ export class HeroEditComponent implements OnInit {
     saveHero() {
         if (this.hero) {
             this.hero.name = this.hero.name.toLowerCase();
-            this.heroService.addHero(this.hero).subscribe({
-                next: () => {
-                    this.notificationService.showSuccess('Se ha creado correctamente!');
-                    this.router.navigate(['/heroes']);
-                },
-                error: (err) => {
-                    this.notificationService.showError(
-                        'Ha ocurrido un error, inténtalo de nuevo más tarde.',
-                    );
-                    console.error(err);
-                },
-            });
+            if (this.isNewHero) {
+                this.heroService.addHero(this.hero).subscribe({
+                    next: () => {
+                        this.notificationService.showSuccess('Se ha creado correctamente!');
+                        this.router.navigate(['/heroes']);
+                    },
+                    error: (err) => {
+                        this.notificationService.showError(
+                            'No se ha podido crear, inténtalo de nuevo más tarde.',
+                        );
+                        console.error(err);
+                    },
+                });
+            } else {
+                this.heroService.updateHero(this.hero).subscribe({
+                    next: () => {
+                        this.notificationService.showSuccess('Se ha modificado correctamente!');
+                        this.router.navigate(['/heroes']);
+                    },
+                    error: (err) => {
+                        this.notificationService.showError(
+                            'No se ha podido modificar, inténtalo de nuevo más tarde.',
+                        );
+                        console.error(err);
+                    },
+                });
+            }
         }
     }
 
