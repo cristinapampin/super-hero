@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, finalize } from 'rxjs';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
     selector: 'app-hero-list',
@@ -13,7 +14,7 @@ export class HeroListComponent implements OnInit {
     public heroes$: Observable<Hero[]> = new Observable();
 
     constructor(
-        private heroService: HeroService,
+        public heroService: HeroService,
         private ngxLoaderService: NgxUiLoaderService,
     ) {}
 
