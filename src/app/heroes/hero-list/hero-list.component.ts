@@ -5,6 +5,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from '../../shared/notification-service/notification-service.service';
 
 @Component({
     selector: 'app-hero-list',
@@ -19,6 +23,8 @@ export class HeroListComponent implements OnInit {
         public heroService: HeroService,
         private ngxLoaderService: NgxUiLoaderService,
         private router: Router,
+        public dialog: MatDialog,
+        private notificationService: NotificationService,
     ) {}
 
     ngOnInit(): void {
@@ -58,5 +64,32 @@ export class HeroListComponent implements OnInit {
 
     editHero(id: number): void {
         this.router.navigate(['/heroes/edit', id]);
+    }
+
+    deleteHero(hero: Hero) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: '250px',
+            data: {
+                message: 'Pulsa continuar si deseas eliminar a ',
+                hero: hero.name,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.heroService.deleteHero(hero.id).subscribe({
+                    next: () => {
+                        this.notificationService.showSuccess('Se ha eliminado correctamente!');
+                        this.getHeroes();
+                    },
+                    error: (err) => {
+                        this.notificationService.showError(
+                            'No se ha podido eliminar, inténtalo de nuevo más tarde.',
+                        );
+                        console.error(err);
+                    },
+                });
+            }
+        });
     }
 }

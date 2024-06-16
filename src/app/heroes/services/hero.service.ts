@@ -32,4 +32,8 @@ export class HeroService {
     updateHero(hero: Hero): Observable<void> {
         return this.http.patch<void>(`${this.heroesUrl}/${hero.id}`, hero);
     }
+
+    deleteHero(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.heroesUrl}/${id}`);
+    }
 }

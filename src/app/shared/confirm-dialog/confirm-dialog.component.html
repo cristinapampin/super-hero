@@ -1,0 +1,9 @@
+<div class="confirm-div">
+    <div class="confirm-msg">
+        <p>{{ data.message }} {{data.hero | titlecase}}</p>
+        <div>
+            <button mat-flat-button color="accent" type="button" (click)="closeDialog(false)">Cancelar</button>
+            <button mat-flat-button color="primary" type="button" (click)="closeDialog(true)">Continuar</button>
+        </div>
+    </div>
+</div>

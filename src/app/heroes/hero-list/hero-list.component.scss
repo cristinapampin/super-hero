@@ -37,6 +37,18 @@
         color: #333;
         gap: 8px;
     }
+
+    .hero-actions {
+        width: 30%;
+        justify-content: end;
+        display: flex;
+        gap: 10px;
+        button {
+            display: flex;
+            align-items: center;
+            color: #4e444b;
+        }
+    }
 }
 
 .heroes-bottom {
