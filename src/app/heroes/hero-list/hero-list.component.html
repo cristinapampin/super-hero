@@ -1,1 +1,15 @@
-<p>hero-list works!</p>
+<div class="heroes-list-container">
+    <div class="heroes">
+        <div class="heroes-list">
+            <mat-list>
+                <mat-list-item *ngFor="let hero of heroes$ | async">
+                    <div class="hero-list-item">
+                        <div class="hero-name">
+                            {{ hero.name | titlecase }}
+                        </div>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</div>
