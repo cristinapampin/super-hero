@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../models/hero.interface';
 import { Observable } from 'rxjs';
+import { NotificationService } from '../../shared/notification-service/notification-service.service';
 
 @Component({
     selector: 'app-hero-edit',
@@ -16,6 +17,7 @@ export class HeroEditComponent implements OnInit {
     constructor(
         private heroService: HeroService,
         private router: Router,
+        private notificationService: NotificationService,
     ) {
         this.lastHeroId$ = new Observable<number>();
     }
@@ -39,7 +41,18 @@ export class HeroEditComponent implements OnInit {
     saveHero() {
         if (this.hero) {
             this.hero.name = this.hero.name.toLowerCase();
-            this.heroService.addHero(this.hero).subscribe(() => this.router.navigate(['/heroes']));
+            this.heroService.addHero(this.hero).subscribe({
+                next: () => {
+                    this.notificationService.showSuccess('Se ha creado correctamente!');
+                    this.router.navigate(['/heroes']);
+                },
+                error: (err) => {
+                    this.notificationService.showError(
+                        'Ha ocurrido un error, inténtalo de nuevo más tarde.',
+                    );
+                    console.error(err);
+                },
+            });
         }
     }
 
