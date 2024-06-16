@@ -18,6 +18,7 @@ import { NotificationService } from '../../shared/notification-service/notificat
 export class HeroListComponent implements OnInit {
     public heroes$: Observable<Hero[]> = new Observable();
     public filteredHeroes$: Observable<Hero[]> = new Observable();
+    public timeoutFilter: NodeJS.Timeout | undefined;
 
     constructor(
         public heroService: HeroService,
@@ -42,8 +43,13 @@ export class HeroListComponent implements OnInit {
     }
 
     onFilterChange(event: any): void {
-        const filterValue = event.target.value.trim().toLowerCase();
-        this.filterHeroes(filterValue);
+        if (this.timeoutFilter) {
+            clearTimeout(this.timeoutFilter);
+        }
+        this.timeoutFilter = setTimeout(() => {
+            const filterValue = event.target.value.trim().toLowerCase();
+            this.filterHeroes(filterValue);
+        }, 400);
     }
 
     filterHeroes(filterValue: string): void {
